@@ -1,6 +1,6 @@
 from audioop import add
 from .__init__ import create_app
-from flask_pymongo import PyMongo
+import pymongo as PyMongo
 from flask import Flask, app, jsonify, request, flash
 
 

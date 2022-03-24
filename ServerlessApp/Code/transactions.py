@@ -1,7 +1,6 @@
 from flask import jsonify
-
-from Code.dbmongo import DbMongo
-from Code.config import DB_HOST, DB_PORT, DB_NAME
+from ServerlessApp.Code.dbmongo import DbMongo
+from ServerlessApp.Code.config import DB_HOST, DB_PORT, DB_NAME
 
 
 class Transactions:
@@ -120,13 +119,23 @@ class Transactions:
         This module helps in handling the bills payments of the user
         :return:
         """
-        # vendor_name = request.get("vendor")
-        # amount = request.get("amount")
-        # account_number = 1234567898
-        # sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
-        # if amount >= sender_account["Amount"]:
-        #     self.db_obj.set_one()
-        #     self.db_obj.create("Transactions", )
+        try:
+            vendor_name = request.get("vendor")
+            amount = request.get("Amount")
+            account_number = 1234567898
+            sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
+            available_amount = sender_account.get("Amount")
+            if available_amount >= amount :
+                self.db_obj.set_one("accounts", {"AccountNumber": account_number},
+                                    {"Amount": available_amount - amount})
+                self.db_obj.create("Transactions", {"AccountNumber": account_number,
+                                                    "amount": amount, "transaction": "debit",
+                                                    "payee": vendor_name})
+                return {"Status": "Your payment of {} to {} is successful".format(amount, vendor_name)}
+            else:
+                return {"Status": "Insufficient balance"}
+        except Exception as error:
+            return {"Status": "Error occurred " + str(error)}
 
     def account_details(self, request):
         """
@@ -139,6 +148,20 @@ class Transactions:
         This module helps in sending money through interac to other accounts
         :return:
         """
-
-
-
+        try:
+            email_id = request.get("email")
+            amount = request.get("Amount")
+            account_number = 1234567898
+            sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
+            available_amount = sender_account.get("Amount")
+            if available_amount >= amount:
+                self.db_obj.set_one("accounts", {"AccountNumber": account_number},
+                                    {"Amount": available_amount - amount})
+                self.db_obj.create("Transactions", {"AccountNumber": account_number,
+                                                    "amount": amount, "transaction": "debit",
+                                                    "payee": email_id})
+                return {"Status": "Your payment of {} to {} is successful".format(amount, email_id)}
+            else:
+                return {"Status": "Insufficient balance"}
+        except Exception as error:
+            return {"Status": "Error occurred " + str(error)}

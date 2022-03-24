@@ -1,7 +1,7 @@
-from Code.services import Services
+from ServerlessApp.Code.services import Services
 from .__init__ import create_app
 from flask import Blueprint, render_template, request, flash, jsonify, Response
-from flask_pymongo import PyMongo
+import pymongo as PyMongo
 from .models import postData, pData
 
 auth = Blueprint('auth', __name__)
@@ -120,7 +120,26 @@ def transfer():
     return jsonify(Services.transfer_amount(user_request))
 
 
+@auth.route('/pay_bills', methods=["GET", "POST"])
+def pay_bills():
+    """
+    This module helps in handling the bills payments of the user
+    :return:
+    """
+    Response.content_type = 'application/json'
+    user_request = request.json
+    return jsonify(Services.pay_bills(user_request))
 
+
+@auth.route('/interac', methods=["GET", "POST"])
+def interac():
+    """
+    This module helps in sending money thorugh interac email id
+    :return:
+    """
+    Response.content_type = 'application/json'
+    user_request = request.json
+    return jsonify(Services.interac(user_request))
 
 
 
@@ -134,28 +153,3 @@ def transfer():
 #     return transactions.transfer()
 #
 #
-# @auth.route("/pay_bills", methods=["GET", "POST"])
-# def pay_bills():
-#     """
-#     This module helps in handling the bills payments of the user
-#     :return:
-#     """
-#     return transactions.pay_bills()
-#
-#
-# @auth.route("/account_details", methods=["GET", "POST"])
-# def account_details():
-#     """
-#     This module helps in modifying the user account details
-#     :return:
-#     """
-#     return transactions.account_details()
-#
-#
-# @auth.route("/interac", methods=["GET", "POST"])
-# def interac():
-#     """
-#     This module helps in sending money through interac to other accounts
-#     :return:
-#     """
-#     return transactions.interac()
