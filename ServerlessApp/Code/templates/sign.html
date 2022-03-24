@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Signup</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="static/css/opensans-font.css">
+	<link rel="stylesheet" type="text/css"
+		href="static/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+		integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+	<!-- Main Style Css -->
+	<link rel="stylesheet" href="/static/css/style1.css" />
+</head>
+
+<body>
+
+	<div class="page-content">
+		<div class="form-v1-content">
+			<div class="wizard-form">
+				<form class="form-register" action="#" method="post">
+					<div id="form-total">
+						<!-- SECTION 1 -->
+						<h2>
+							<p class="step-icon"><span>01</span></p>
+							<span class="step-text">Peronal Infomation</span>
+						</h2>
+						<section>
+							<div class="inner">
+								<div class="wizard-header">
+									<h3 class="heading">Personal Infomation</h3>
+									<p>Please enter your infomation and proceed to the next step so we can build your
+										accounts. </p>
+								</div>
+								<div class="form-row">
+									<div class="form-holder">
+										<fieldset>
+											<legend>First Name</legend>
+											<input type="text" class="form-control" id="firstname" name="firstname"
+												placeholder="First Name" required>
+										</fieldset>
+									</div>
+									<div class="form-holder">
+										<fieldset>
+											<legend>Last Name</legend>
+											<input type="text" class="form-control" id="lastname" name="lastname"
+												placeholder="Last Name" required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<fieldset>
+											<legend>Your Email</legend>
+											<input type="text" name="email" id="email" class="form-control"
+												pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" placeholder="example@email.com"
+												required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<fieldset>
+											<legend>Password</legend>
+											<input type="password" class="form-control" id="password1" name="password1"
+												placeholder="******" required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<fieldset>
+											<legend>Confirm Password</legend>
+											<input type="password" class="form-control" id="password2" name="password2"
+												placeholder="******" required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row form-row-date">
+									<div class="form-holder form-holder-2">
+										<fieldset>
+											<legend>Birth Date:</legend>
+											<input type="date" class="form-control" id="DOB" name="DOB"
+												placeholder="******" required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<fieldset>
+											<legend>Your Address</legend>
+											<input type="text" name="address" id="address" class="form-control"
+												placeholder="123 Main St." required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder">
+										<fieldset>
+											<legend>City</legend>
+											<input type="text" class="form-control" id="city" name="city"
+												placeholder="City" required>
+										</fieldset>
+									</div>
+
+									<div class="form-holder">
+
+										<legend>Province</legend>
+										<select name="Province" id="Province">
+											<option value="Select" disabled selected>- Select -</option>
+											<option value="AB">AB</option>
+											<option value="BC">BC</option>
+											<option value="MB">MB</option>
+											<option value="NB">NB</option>
+											<option value="NL">NL</option>
+											<option value="NT">NT</option>
+											<option value="NS">NS</option>
+											<option value="NU">NU</option>
+											<option value="ON">ON</option>
+											<option value="PE">PE</option>
+											<option value="QC">QC</option>
+											<option value="SK">SK</option>
+											<option value="YT">YT</option>
+										</select>
+										<!-- <input type="text" class="form-control" id="province" name="province" placeholder="Province" required> -->
+
+									</div>
+
+									<div class="form-holder">
+										<fieldset>
+											<legend>ZipCode</legend>
+											<input type="text" class="form-control" id="ZipCode" name="ZipCode"
+												placeholder="X1X1X1" required>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<fieldset>
+											<legend>Phone Number</legend>
+											<input type="text" class="form-control" id="phonenumber" name="phonenumber"
+												placeholder="+1 888-999-7777" required>
+										</fieldset>
+									</div>
+								</div>
+
+							</div>
+
+						</section>
+
+						<!-- SECTION 2 -->
+						<h2>
+							<p class="step-icon"><span>02</span></p>
+							<span class="step-text">Account Information</span>
+						</h2>
+						<section>
+							<div class="inner">
+								<div class="wizard-header">
+									<h3 class="heading">Account Information</h3>
+									<p>Please enter your account infomation and proceed to submit so we can build your
+										accounts. </p>
+								</div>
+								<div class="form-row">
+									<div class="form-holder">
+										<fieldset>
+											<legend>Account Number</legend>
+											<input type="text" class="form-control" id="AccountNumber"
+												name="AccountNumber" placeholder="Account Number" minLength="12"
+												maxlength="12" Value="" required readonly>
+										</fieldset>
+									</div>
+									<div class="form-holder">
+										<button type="button" onClick="generateNumber(); this.disabled = true;"
+											class="btn-primary">Generate</button>
+									</div>
+								</div>
+								<div class="form-row form-holder">
+									<!-- <label class="special-label">Birth Date:</label> -->
+									<div class="form-holder">
+										<legend>Account Type:</legend>
+										<select name="accountType" id="accountType" name="accountType">
+											<option value="Select" disabled selected>- Select -</option>
+											<option value="Chequing Account">Chequing Account</option>
+											<option value="Saving Account">Saving Account</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-holder" style="margin-right: 20px; right:20px; bottom:30px; position:absolute; float:right;">
+									<button type="submit" class="btn-primary-submit"
+										style="margin-bottom: 30px; float: right; border-radius:80px; color: white; background-color:limegreen;"><i
+											class="fas fa-check" style="padding: 5px;"></i></button>
+								</div>
+							</div>
+
+						</section>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="static/js/jquery3.3.1.min.js"></script>
+	<script src="static/js/jquery.steps.js"></script>
+	<script src="static/js/m.js"></script>
+	<script src="https://kit.fontawesome.com/d908fc379b.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<script>
+		function generateNumber() {
+			document.getElementById("AccountNumber").value = Math.floor(Math.random() * 100000000000) + 1;
+		}
+	</script>
+</body>
+<footer class="text-gray-600 body-font" style="background-color: white; bottom:0;">
+	<div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+		<a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+
+			</svg>
+
+			<img src="static/images/logo.png" class="d-inline" style="width: 100px;"></img>
+		</a>
+		<p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2022
+			All Rights Reserved.
+
+		</p>
+	</div>
+</footer>
+
+</html>
