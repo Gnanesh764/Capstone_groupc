@@ -9,6 +9,24 @@ class Services:
     """
 
     @staticmethod
+    def login(request):
+        """
+        This function is responsible for authorising the user
+        :return:
+        """
+        trans_obj = Transactions()
+        return trans_obj.login(request)
+
+    @staticmethod
+    def signup(request):
+        """
+        This function is responsible for creating an account for the user
+        :return:
+        """
+        trans_obj = Transactions()
+        return trans_obj.sign_up(request)
+
+    @staticmethod
     def credit_amount(request):
         """
         This function is responsible for crediting the amount to the account
@@ -52,5 +70,14 @@ class Services:
         """
         trans_obj = Transactions()
         return trans_obj.interac(request)
+
+    @staticmethod
+    def modify_details(request):
+        """
+        This function helps in modifying the user details
+        """
+        trans_obj = Transactions()
+        return trans_obj.modify_details(request)
+
 
 
