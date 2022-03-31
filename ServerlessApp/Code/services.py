@@ -1,6 +1,4 @@
-from flask import jsonify
-
-from Code.transactions import Transactions
+from ServerlessApp.Code.transactions import Transactions
 
 
 class Services:

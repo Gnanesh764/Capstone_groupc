@@ -52,7 +52,7 @@ class Transactions:
             Province = request.form.get('Province')
             ZipCode = request.form.get('ZipCode')
             phonenumber = request.form.get('phonenumber')
-            AccountNumber = request.form.get('AccountNumber')
+            AccountNumber = int(request.form.get('AccountNumber'))
             accountType = request.form.get('accountType')
 
             if len(email) < 4:
@@ -75,7 +75,8 @@ class Transactions:
             data = {'firstname': firstname, 'lastname': lastname, 'email': email, 'city': city,
                     'phone_number': phone_number, 'DOB': birth_date, 'password': password,
                     'address': address, 'province': Province, 'ZipCode': ZipCode,
-                    'phone': phonenumber, "AccountNumber": AccountNumber, "Acc_Type": accountType}
+                    'phone': phonenumber, "AccountNumber": AccountNumber, "Acc_Type": accountType,
+                    "Amount": 0}
 
             self.db_obj.create('accounts', data)
             # return render_template("l.html")
@@ -92,21 +93,26 @@ class Transactions:
             account_number = request.get("AccountNumber")
             amount_to_credit = request.get("Amount")
             depositor_name = request.get("DepositorName")
+            print("AccountNumber",  account_number)
             account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
+            print(account)
             if account is not None:
+                print(1)
                 self.db_obj.set_one("accounts", {"AccountNumber": account_number},
                                     {"Amount": int(account["Amount"]) + amount_to_credit})
+                print(2)
                 self.db_obj.create("Transactions", {"AccountNumber": account_number,
                                                     "amount": amount_to_credit, "transaction": "credit",
                                                     "Depositor": depositor_name})
+                print(3)
                 account.pop("_id", None)
                 account["Amount"] = (int(account["Amount"]) + amount_to_credit)
                 return account
             else:
                 return jsonify({"error": "No such record found"})
         except KeyError as error:
-            print("Exception occurred while crediting the money")
-            return "Check it properly"
+            print("Exception occurred while crediting the money ", error)
+            return {"Status": "Check it properly"}
 
     def debit(self, request):
         """
@@ -170,6 +176,7 @@ class Transactions:
                                                         "payee": payee})
                     receiver_account["Amount"] = int(receiver_amount) + amount_to_transfer
                     sender_account.pop("_id", None)
+                    receiver_account.pop("_id", None)
                     return receiver_account
                 else:
                     return {"error": "Insufficient balance"}

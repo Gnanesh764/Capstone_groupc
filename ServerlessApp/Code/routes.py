@@ -1,8 +1,5 @@
+from flask import Blueprint, render_template, request, jsonify, Response
 from ServerlessApp.Code.services import Services
-from .__init__ import create_app
-from flask import Blueprint, render_template, request, flash, jsonify, Response
-import pymongo as PyMongo
-from .models import postData, pData
 
 auth = Blueprint('auth', __name__)
 
