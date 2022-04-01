@@ -176,7 +176,7 @@ class DbMongo:
                                       HTTPStatus.CONFLICT)
             return collection_list[0]
         except Exception as exe:
-            raise DbException(exe)
+            return {"Error": str("error{}".format(exe))}
 
     def get_list(self, table, q_filter=None):
         """

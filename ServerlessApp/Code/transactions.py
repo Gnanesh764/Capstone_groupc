@@ -90,29 +90,31 @@ class Transactions:
         :return:
         """
         try:
-            account_number = request.get("AccountNumber")
-            amount_to_credit = request.get("Amount")
-            depositor_name = request.get("DepositorName")
-            print("AccountNumber",  account_number)
-            account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
-            print(account)
-            if account is not None:
-                print(1)
-                self.db_obj.set_one("accounts", {"AccountNumber": account_number},
+            account_number = int(request.form.get("AccountNumber"))
+            amount_to_credit = int(request.form.get("Amount"))
+            depositor_name = request.form.get("DepositorName")
+            account_type = request.form.get("AccountType")
+            print("From transactions.credit Account Number {} amount to be credit to {} depositor name {}".format(
+                account_number, amount_to_credit, depositor_name))
+            account = self.db_obj.get_one("accounts", {"AccountNumber": account_number, "Acc_Type": account_type})
+
+            if account.get("Error") is None:
+                self.db_obj.set_one("accounts", {"AccountNumber": account_number, "Acc_Type": account_type},
                                     {"Amount": int(account["Amount"]) + amount_to_credit})
-                print(2)
-                self.db_obj.create("Transactions", {"AccountNumber": account_number,
+                print("From transactions.credit amount credited to account {}".format(account_number))
+                self.db_obj.create("Transactions", {"AccountNumber": account_number, "AccountType": account_type,
                                                     "amount": amount_to_credit, "transaction": "credit",
                                                     "Depositor": depositor_name})
-                print(3)
+                print("From transactions.credit transaction of credit made to account{} for amount{}".format(
+                    account_number, amount_to_credit))
                 account.pop("_id", None)
                 account["Amount"] = (int(account["Amount"]) + amount_to_credit)
                 return account
             else:
-                return jsonify({"error": "No such record found"})
-        except KeyError as error:
+                return account
+        except Exception as error:
             print("Exception occurred while crediting the money ", error)
-            return {"Status": "Check it properly"}
+            return {"Error": str("Check it properly {}".format(error))}
 
     def debit(self, request):
         """
@@ -120,28 +122,37 @@ class Transactions:
         :return:
         """
         try:
-            account_number = request.get("AccountNumber")
-            amount_to_debit = request.get("Amount")
-            payee = request.get("DepositorName")
-            account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
+            account_number = int(request.form.get("AccountNumber"))
+            amount_to_debit = int(request.form.get("Amount"))
+            payee = request.form.get("DepositorName")
+            account_type = request.form.get("account")
+            print("From transactions.debit Account Number {} amount to be debited to {} payee name {}".format(
+                account_number, amount_to_debit, payee))
+            account = self.db_obj.get_one("accounts", {"AccountNumber": account_number, "Acc_Type": account_type})
             avail_amount = account["Amount"]
-            if account is not None:
+            if account.get("Error") is None:
                 if avail_amount >= amount_to_debit:
-                    self.db_obj.set_one("accounts", {"AccountNumber": account_number},
+
+                    self.db_obj.set_one("accounts", {"AccountNumber": account_number, "Acc_Type": account_type},
                                         {"Amount": int(avail_amount) - amount_to_debit})
-                    self.db_obj.create("Transactions", {"AccountNumber": account_number,
+
+                    print("From transactions.credit amount debited to account {}".format(account_number))
+                    self.db_obj.create("Transactions", {"AccountNumber": account_number, "AccountType": account_type,
                                                         "amount": amount_to_debit, "transaction": "debit",
                                                         "payee": payee})
+                    print("From transactions.credit transaction of credit made to account{} for amount{}".format(
+                        account_number, amount_to_debit))
+
                     account.pop("_id", None)
                     account["Amount"] = (int(avail_amount) - amount_to_debit)
                     return account
                 else:
                     return {"error": "Insufficient balance"}
             else:
-                return jsonify({"error": "No such record found"})
-        except KeyError as error:
-            print("Exception occurred while debiting the money")
-            return "Check it properly "
+                return account
+        except Exception as error:
+            print("Exception occurred while debiting the money ", error)
+            return {"Error": str("Check it properly {}".format(error))}
 
     def transfer(self, request):
         """
@@ -149,42 +160,62 @@ class Transactions:
         :return:
         """
         try:
+
             sender_acc_number = 1234567898
-            receiver_account_number = request.get("AccountNumber")
-            amount_to_transfer = request.get("Amount")
-            payee = request.get("DepositorName")
+            sender_account_type = request.form.get("account")
+            receiver_account_number = int(request.form.get("AccountNumber"))
+            amount_to_transfer = int(request.form.get("Amount"))
+            payee = request.form.get("DepositorName")
+
+            print("From transactions.transfer Account Number {} amount to be transferred to {} payee name {}".format(
+                sender_acc_number, amount_to_transfer, payee))
+
             # get sender account details
-            sender_account = self.db_obj.get_one("accounts", {"AccountNumber": sender_acc_number})
-            avail_amount = sender_account["Amount"]
+            print("AccountNumber {} Acc_Type {}".format(sender_acc_number, sender_account_type))
+            sender_account = self.db_obj.get_one("accounts", {"AccountNumber": sender_acc_number,
+                                                              "Acc_Type": sender_account_type})
+
             # get receiver account details
             receiver_account = self.db_obj.get_one("accounts", {"AccountNumber": receiver_account_number})
-            receiver_amount = receiver_account["Amount"]
-            if sender_account and receiver_account is not None:
-                if avail_amount >= amount_to_transfer:
-                    self.db_obj.set_one("accounts", {"AccountNumber": sender_acc_number},
-                                        {"Amount": int(avail_amount) - amount_to_transfer})
-                    self.db_obj.create("Transactions", {"AccountNumber": sender_acc_number,
-                                                        "amount": amount_to_transfer, "transaction": "debit",
-                                                        "payee": payee})
-                    sender_account.pop("_id", None)
-                    sender_account["Amount"] = (int(avail_amount) - amount_to_transfer)
 
-                    self.db_obj.set_one("accounts", {"AccountNumber": receiver_account_number},
-                                        {"Amount": int(receiver_amount) + amount_to_transfer})
-                    self.db_obj.create("Transactions", {"AccountNumber": sender_acc_number,
-                                                        "amount": amount_to_transfer, "transaction": "credit",
-                                                        "payee": payee})
-                    receiver_account["Amount"] = int(receiver_amount) + amount_to_transfer
-                    sender_account.pop("_id", None)
-                    receiver_account.pop("_id", None)
-                    return receiver_account
-                else:
-                    return {"error": "Insufficient balance"}
+            if sender_account.get("Error") is None:
+                avail_amount = sender_account["Amount"]
+                if receiver_account.get("Error") is None:
+                    receiver_amount = receiver_account["Amount"]
+                    if avail_amount >= amount_to_transfer:
+                        # Debit amount from sender account
+                        self.db_obj.set_one("accounts",
+                                            {"AccountNumber": sender_acc_number, "Acc_Type": sender_account_type},
+                                            {"Amount": int(avail_amount) - amount_to_transfer})
+
+                        print("From transactions.transfer amount debited to account {}".format(sender_acc_number))
+                        self.db_obj.create("Transactions", {"AccountNumber": sender_acc_number,
+                                                            "AccountType": sender_account_type,
+                                                            "amount": amount_to_transfer,
+                                                            "transaction": "debit",
+                                                            "payee": payee})
+                        print("From transactions.transfer transaction of credit made to account{} for amount{}".format(
+                            sender_acc_number, amount_to_transfer))
+
+                        sender_account.pop("_id", None)
+                        sender_account["Amount"] = (int(avail_amount) - amount_to_transfer)
+
+                        self.db_obj.set_one("accounts", {"AccountNumber": receiver_account_number},
+                                            {"Amount": int(receiver_amount) + amount_to_transfer})
+                        self.db_obj.create("Transactions", {"AccountNumber": sender_acc_number,
+                                                            "amount": amount_to_transfer, "transaction": "credit",
+                                                            "payee": payee})
+                        receiver_account["Amount"] = int(receiver_amount) + amount_to_transfer
+                        sender_account.pop("_id", None)
+                        receiver_account.pop("_id", None)
+                        return receiver_account
+                    else:
+                        return {"error": "Insufficient balance"}
             else:
-                return jsonify({"error": "No such record found"})
+                return receiver_account
         except KeyError as error:
-            print("Exception occurred while debiting the money")
-            return "Check it properly Yoo"
+            print("Exception occurred while transferring the money ", error)
+            return {"Error": str("Check it properly {}".format(error))}
 
     def pay_bills(self, request):
         """
@@ -192,21 +223,31 @@ class Transactions:
         :return:
         """
         try:
-            vendor_name = request.get("vendor")
-            amount = request.get("Amount")
-            account_number = 1234567898
-            sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
-            available_amount = sender_account.get("Amount")
-            if available_amount >= amount:
-                self.db_obj.set_one("accounts", {"AccountNumber": account_number},
-                                    {"Amount": available_amount - amount})
-                self.db_obj.create("Transactions", {"AccountNumber": account_number,
-                                                    "amount": amount, "transaction": "debit",
-                                                    "payee": vendor_name})
-                return {"Status": "Your payment of {} to {} is successful".format(amount, vendor_name)}
+            vendor_name = request.form.get("vendor")
+            amount = int(request.form.get("Amount"))
+            account_type = request.form.get("account")
+            account_number = int(request.form.get("AccountNumber"))
+
+            sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number,
+                                                              "Acc_Type": account_type})
+
+            if sender_account.get("Error") is None:
+                available_amount = sender_account.get("Amount")
+                if available_amount >= amount:
+                    self.db_obj.set_one("accounts", {"AccountNumber": account_number,
+                                        "Acc_Type": account_type}, {"Amount": available_amount - amount})
+
+                    self.db_obj.create("Transactions", {"AccountNumber": account_number,
+                                                        "AccountType": account_type,
+                                                        "amount": amount, "transaction": "debit",
+                                                        "payee": vendor_name})
+                    return {"Status": "Your payment of {} to {} is successful".format(amount, vendor_name)}
+                else:
+                    return {"Status": "Insufficient balance"}
             else:
-                return {"Status": "Insufficient balance"}
+                return sender_account
         except Exception as error:
+            print("Exception occurred while paying bill", error)
             return {"Status": "Error occurred " + str(error)}
 
     def modify_details(self, request):
@@ -233,19 +274,26 @@ class Transactions:
         :return:
         """
         try:
-            email_id = request.get("email")
-            amount = request.get("Amount")
-            account_number = 1234567898
+            email_id = request.form.get("email")
+            amount = int(request.form.get("Amount"))
+            account_number = int(request.form.get("AccountNumber"))
+            account_type = request.form.get("account")
             sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
             available_amount = sender_account.get("Amount")
-            if available_amount >= amount:
-                self.db_obj.set_one("accounts", {"AccountNumber": account_number},
-                                    {"Amount": available_amount - amount})
-                self.db_obj.create("Transactions", {"AccountNumber": account_number,
-                                                    "amount": amount, "transaction": "debit",
-                                                    "payee": email_id})
-                return {"Status": "Your payment of {} to {} is successful".format(amount, email_id)}
+            if sender_account.get("Error") is None:
+                if available_amount >= amount:
+                    self.db_obj.set_one("accounts", {"AccountNumber": account_number,
+                                                     "Acc_Type": account_type},
+                                        {"Amount": available_amount - amount})
+                    self.db_obj.create("Transactions", {"AccountNumber": account_number,
+                                                        "AccountType": account_type,
+                                                        "amount": amount, "transaction": "debit",
+                                                        "payee": email_id})
+                    return {"Status": "Your payment of {} to {} is successful".format(amount, email_id)}
+                else:
+                    return {"Status": "Insufficient balance"}
             else:
-                return {"Status": "Insufficient balance"}
+                return sender_account
         except Exception as error:
+            print("Exception occurred while doing interac", error)
             return {"Status": "Error occurred " + str(error)}

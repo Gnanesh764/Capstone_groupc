@@ -24,7 +24,6 @@ def signup():
     user_request = request
     if request.method == 'POST':
         return Services.signup(user_request)
-
     return render_template("sign.html")
 
 
@@ -35,8 +34,10 @@ def credit():
     :return:
     """
     Response.content_type = 'application/json'
-    user_request = request.json
-    return jsonify(Services.credit_amount(user_request))
+    user_request = request
+    if request.method == 'POST':
+        return jsonify(Services.credit_amount(user_request))
+    return render_template("Transactions.html")
 
 
 @auth.route('/withdrawal', methods=['GET', 'POST'])
@@ -46,8 +47,10 @@ def withdrawal():
     :return:
     """
     Response.content_type = 'application/json'
-    user_request = request.json
-    return jsonify(Services.debit_amount(user_request))
+    user_request = request
+    if request.method == "POST":
+        return jsonify(Services.debit_amount(user_request))
+    return render_template("Transactions.html")
 
 
 @auth.route('/transfer', methods=["GET", "POST"])
@@ -57,8 +60,10 @@ def transfer():
     :return:
     """
     Response.content_type = 'application/json'
-    user_request = request.json
-    return jsonify(Services.transfer_amount(user_request))
+    user_request = request
+    if request.method == "POST":
+        return jsonify(Services.transfer_amount(user_request))
+    return render_template("Transactions.html")
 
 
 @auth.route('/pay_bills', methods=["GET", "POST"])
@@ -68,8 +73,10 @@ def pay_bills():
     :return:
     """
     Response.content_type = 'application/json'
-    user_request = request.json
-    return jsonify(Services.pay_bills(user_request))
+    user_request = request
+    if request.method == "POST":
+        return jsonify(Services.pay_bills(user_request))
+    return render_template("Transactions.html")
 
 
 @auth.route('/interac', methods=["GET", "POST"])
@@ -79,8 +86,10 @@ def interac():
     :return:
     """
     Response.content_type = 'application/json'
-    user_request = request.json
-    return jsonify(Services.interac(user_request))
+    user_request = request
+    if request.method == "POST":
+        return jsonify(Services.interac(user_request))
+    return render_template("Transactions.html")
 
 
 @auth.route('/modify_details', methods=["GET", "POST"])
@@ -92,4 +101,3 @@ def modify_details():
     Response.content_type = 'application/json'
     user_request = request.json
     return jsonify(Services.modify_details(user_request))
-
