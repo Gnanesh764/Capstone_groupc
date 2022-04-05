@@ -17,6 +17,7 @@ class Transactions:
         self.db_config = {"host": DB_HOST, "port": DB_PORT, "db_name": DB_NAME}
         self.db_obj = DbMongo()
         self.db_obj.db_connect(self.db_config)
+        self.account_number = 0
 
     def login(self, request):
         """
@@ -28,6 +29,7 @@ class Transactions:
             user_accounts = self.db_obj.get_one("accounts", {"email": email})
             if user_accounts["email"] == email:
                 if user_accounts["password"] == password:
+                    self.account_number = user_accounts["AccountNumber"]
                     return render_template("dashboard.html")
             else:
                 return {"Status": "Cannot access the account"}
@@ -94,6 +96,7 @@ class Transactions:
             amount_to_credit = int(request.form.get("Amount"))
             depositor_name = request.form.get("DepositorName")
             account_type = request.form.get("AccountType")
+
             print("From transactions.credit Account Number {} amount to be credit to {} depositor name {}".format(
                 account_number, amount_to_credit, depositor_name))
             account = self.db_obj.get_one("accounts", {"AccountNumber": account_number, "Acc_Type": account_type})

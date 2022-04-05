@@ -1,7 +1,14 @@
-from flask import Blueprint, render_template, request, jsonify, Response
+from flask import Blueprint, render_template, request, jsonify, Response, url_for, flash
+from werkzeug.utils import redirect
+
 from ServerlessApp.Code.services import Services
 
 auth = Blueprint('auth', __name__)
+
+
+@auth.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template("logout.html")
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -9,6 +16,9 @@ def login():
     Response.content_type = 'application/json'
     user_request = request
     if request.method == 'POST':
+        login_response = Services.login(user_request)
+        print(login_response)
+        flash('You are logged in successful', 'success')
         return Services.login(user_request)
     return render_template("l.html")
 
@@ -23,7 +33,11 @@ def signup():
     Response.content_type = 'application/json'
     user_request = request
     if request.method == 'POST':
-        return Services.signup(user_request)
+        # return Services.signup(user_request)
+        response_signup = Services.signup(user_request)
+        print(response_signup)
+        flash('You are now registered and can log in', 'success')
+        return response_signup
     return render_template("sign.html")
 
 
