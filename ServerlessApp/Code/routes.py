@@ -51,11 +51,11 @@ def credit():
     user_request = request
     if request.method == 'POST':
         return jsonify(Services.credit_amount(user_request))
-    return render_template("Transactions.html")
+    return render_template("trans.html")
 
 
-@auth.route('/withdrawal', methods=['GET', 'POST'])
-def withdrawal():
+@auth.route('/debit', methods=['GET', 'POST'])
+def debit():
     """
     This function is responsible for debit the amount from the account
     :return:
@@ -64,7 +64,7 @@ def withdrawal():
     user_request = request
     if request.method == "POST":
         return jsonify(Services.debit_amount(user_request))
-    return render_template("Transactions.html")
+    return render_template("withdraw.html")
 
 
 @auth.route('/transfer', methods=["GET", "POST"])
@@ -77,7 +77,7 @@ def transfer():
     user_request = request
     if request.method == "POST":
         return jsonify(Services.transfer_amount(user_request))
-    return render_template("Transactions.html")
+    return render_template("transfer.html")
 
 
 @auth.route('/pay_bills', methods=["GET", "POST"])
@@ -90,7 +90,7 @@ def pay_bills():
     user_request = request
     if request.method == "POST":
         return jsonify(Services.pay_bills(user_request))
-    return render_template("Transactions.html")
+    return render_template("paybills.html")
 
 
 @auth.route('/interac', methods=["GET", "POST"])
@@ -103,7 +103,7 @@ def interac():
     user_request = request
     if request.method == "POST":
         return jsonify(Services.interac(user_request))
-    return render_template("Transactions.html")
+    return render_template("interac.html")
 
 
 @auth.route('/modify_details', methods=["GET", "POST"])
@@ -115,3 +115,7 @@ def modify_details():
     Response.content_type = 'application/json'
     user_request = request.json
     return jsonify(Services.modify_details(user_request))
+
+@auth.route('/dashboard', methods=["GET", "POST"])
+def dashboard():
+    return render_template("dashboard.html")

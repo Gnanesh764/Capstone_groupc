@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Transactions</title>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <link rel="stylesheet" type="text/css" href="static/transactionsCSS/opensans-font.css">
+    <link rel="stylesheet" type="text/css"
+        href="static/transactionsCSS/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="/static/transactionsCSS/style1.css" />
+
+       <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Nucleo Icons -->
+  <link href="static/css/nucleo-icons.css" rel="stylesheet" />
+
+  <link href="static/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="static/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="static/css/argon-dashboard.css?v=2.0.0" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show">
+  <div class="min-height-300 position-absolute w-100"></div>
+  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
+        <img src="static/images/logo.png" class="navbar-brand-img h-100" alt="main_logo">
+
+      </a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <div class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href={{ url_for('auth.dashboard') }}>
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+          <li class="nav-item sub-menu">
+		    <a class="nav-link sub-menu-toggle animate" data-bs-toggle="dropdown" href="#">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-warning text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Transaction</span>
+            </a>
+		<ul class="dropdown-menu m-0 p-0">
+			<li><a class="nav-link dropdown-item" href="{{ url_for('auth.credit') }}">
+                <h6 class="ps-4 ms-2 text-xs font-weight-bolder text-center me-2 d-flex align-items-center justify-content-center">Credit</h6>
+            </a></li>
+			<li><a class="nav-link dropdown-item" href="{{ url_for('auth.debit') }}">
+                <h6 class="ps-4 ms-2 text-xs font-weight-bolder text-center me-2 d-flex align-items-center justify-content-center">Withdraw</h6>
+            </a></li>
+			<li><a class="nav-link dropdown-item active" href="{{ url_for('auth.transfer') }}">
+                <h6 class="ps-4 ms-2 text-xs font-weight-bolder text-center me-2 d-flex align-items-center justify-content-center">Transfer</h6>
+            </a> </li>
+            <li><a class="nav-link dropdown-item" href="{{ url_for('auth.pay_bills') }}">
+                <h6 class="ps-4 ms-2 text-xs font-weight-bolder text-center me-2 d-flex align-items-center justify-content-center">Pay Bills</h6>
+            </a> </li>
+            <li><a class="nav-link dropdown-item" href="{{ url_for('auth.interac') }}">
+                <h6 class="ps-4 ms-2 text-xs font-weight-bolder text-center me-2 d-flex align-items-center justify-content-center">Interac</h6>
+            </a> </li>
+		</ul>
+	</li>
+
+        </li>
+
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../pages/profile.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="{{url_for('auth.logout')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-button-power text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Primo.</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Transfer</li>
+          </ol>
+          <h6 class="font-weight-bolder text-white mb-0">Transfer</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group">
+
+            </div>
+          </div>
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none">Sign In</span>
+              </a>
+            </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                  </div>
+                </a>
+              </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white p-0">
+                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-bell cursor-pointer"></i>
+              </a>
+              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New message</span> from Laur
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          13 minutes ago
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="static/images/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New album</span> by Travis Scott
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          1 day
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <title>credit-card</title>
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                              <g transform="translate(1716.000000, 291.000000)">
+                                <g transform="translate(453.000000, 454.000000)">
+                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
+                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          Payment successfully completed
+                        </h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <i class="fa fa-clock me-1"></i>
+                          2 days
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </main>
+    <!-- End Navbar -->
+<div class="page-content">
+        <div class="form-v1-content">
+            <div class="wizard-form">
+                <form class="form-register" action="#" method="post">
+                    <div id="form-total" style="margin-top: -100px">
+                        <!-- SECTION 1 -->
+                        <h2>
+                            <span class="step-text">Transfer</span>
+                        </h2>
+                        <section>
+                            <div class="inner">
+                                <div class="wizard-header">
+                                    <h3 class="heading">Transfer</h3>
+                                    <p>Please enter account infomation and proceed to credit the amount.</p>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder">
+                                        <fieldset>
+                                            <legend>Account Number</legend>
+                                            <input type="text" class="form-control" id="AccountNumber"
+                                                name="AccountNumber" placeholder="Account Number" required>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder">
+                                        <fieldset>
+                                            <legend>Amount</legend>
+                                            <input type="text" class="form-control" id="Amount" name="Amount"
+                                                placeholder="Amount" required>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-holder">
+                                        <fieldset>
+                                            <legend>Depositor's Name</legend>
+                                            <input type="text" class="form-control" id="DepositorName"
+                                                name="DepositorName" placeholder="DepositorName" required>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                               <div class="form-row form-holder">
+									<!-- <label class="special-label">Birth Date:</label> -->
+									<div class="form-holder">
+										<legend>Account Type:</legend>
+										<select name="accountType" id="accountType" name="accountType">
+											<option value="Select" disabled selected>- Select -</option>
+											<option value="Chequing">Chequing</option>
+											<option value="Saving">Saving</option>
+										</select>
+									</div>
+								</div>
+                            </div>
+
+                           </section>
+
+                        <div class="form-row">
+								<div class="form-holder" style="margin-right: 20px; right:20px; bottom:30px; position:absolute; float:right;">
+									<button type="submit" class="btn-primary-submit"
+										style="margin-bottom: 30px; float: right; border-radius:80px; color: white; background-color:limegreen;"><i
+											class="fas fa-check" style="padding: 5px;" href="{{ url_for('auth.transfer')}}"></i></button>
+								</div>
+							</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="static/transactionsCSS/js/jquery3.3.1.min.js"></script>
+    <script src="static/transactionsCSS/js/jquery.steps.js"></script>
+    <script src="static/transactionsCSS/js/m.js"></script>
+    <script src="https://kit.fontawesome.com/d908fc379b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="static/js/core/popper.min.js"></script>
+  <script src="static/js/core/bootstrap.min.js"></script>
+{#  <script src="static/js/plugins/perfect-scrollbar.min.js"></script>#}
+{#  <script src="static/js/plugins/smooth-scrollbar.min.js"></script>#}
+</body>
+ <footer class="footer pt-3">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start"  style="margin-left: 283px">
+                © <script>
+                  document.write(new Date().getFullYear())
+                </script>
+                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Primo.</a>
+                Banking
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                  <a href="#" class="nav-link text-muted" target="_blank">Primo.</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link text-muted" target="_blank">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link text-muted" target="_blank">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+</html>
