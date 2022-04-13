@@ -95,7 +95,7 @@ class Transactions:
             account_number = int(request.form.get("AccountNumber"))
             amount_to_credit = int(request.form.get("Amount"))
             depositor_name = request.form.get("DepositorName")
-            account_type = request.form.get("AccountType")
+            account_type = request.form.get("accountType")
 
             print("From transactions.credit Account Number {} amount to be credit to {} depositor name {}".format(
                 account_number, amount_to_credit, depositor_name))
@@ -128,7 +128,7 @@ class Transactions:
             account_number = int(request.form.get("AccountNumber"))
             amount_to_debit = int(request.form.get("Amount"))
             payee = request.form.get("DepositorName")
-            account_type = request.form.get("account")
+            account_type = request.form.get("accountType")
             print("From transactions.debit Account Number {} amount to be debited to {} payee name {}".format(
                 account_number, amount_to_debit, payee))
             account = self.db_obj.get_one("accounts", {"AccountNumber": account_number, "Acc_Type": account_type})
@@ -164,9 +164,9 @@ class Transactions:
         """
         try:
 
-            sender_acc_number = 1234567898
-            sender_account_type = request.form.get("account")
-            receiver_account_number = int(request.form.get("AccountNumber"))
+            sender_acc_number = int(request.form.get("AccountNumber"))
+            sender_account_type = request.form.get("accountType")
+            receiver_account_number = 1234567898
             amount_to_transfer = int(request.form.get("Amount"))
             payee = request.form.get("DepositorName")
 
@@ -226,9 +226,9 @@ class Transactions:
         :return:
         """
         try:
-            vendor_name = request.form.get("vendor")
+            vendor_name = request.form.get("Vendor")
             amount = int(request.form.get("Amount"))
-            account_type = request.form.get("account")
+            account_type = request.form.get("accountType")
             account_number = int(request.form.get("AccountNumber"))
 
             sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number,
@@ -280,7 +280,7 @@ class Transactions:
             email_id = request.form.get("email")
             amount = int(request.form.get("Amount"))
             account_number = int(request.form.get("AccountNumber"))
-            account_type = request.form.get("account")
+            account_type = request.form.get("accountType")
             sender_account = self.db_obj.get_one("accounts", {"AccountNumber": account_number})
             available_amount = sender_account.get("Amount")
             if sender_account.get("Error") is None:
