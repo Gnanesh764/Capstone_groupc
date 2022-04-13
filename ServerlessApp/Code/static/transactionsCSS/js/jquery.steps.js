@@ -275,20 +275,20 @@ function destroy(wizard, options)
  * @param wizard {Object} The jQuery wizard object
  * @param state {Object} The state container of the current wizard
  **/
-// function finishStep(wizard, state)
-// {
-//     var currentStep = wizard.find(".steps li").eq(state.currentIndex);
+function finishStep(wizard, state)
+{
+    var currentStep = wizard.find(".steps li").eq(state.currentIndex);
 
-//     if (wizard.triggerHandler("finishing", [state.currentIndex]))
-//     {
-//         currentStep.addClass("done").removeClass("error");
-//         wizard.triggerHandler("finished", [state.currentIndex]);
-//     }
-//     else
-//     {
-//         currentStep.addClass("error");
-//     }
-// }
+    if (wizard.triggerHandler("finishing", [state.currentIndex]))
+    {
+        currentStep.addClass("done").removeClass("error");
+        wizard.triggerHandler("finished", [state.currentIndex]);
+    }
+    else
+    {
+        currentStep.addClass("error");
+    }
+}
 
 /**
  * Gets or creates if not exist an unique event namespace for the given wizard instance.
@@ -312,12 +312,12 @@ function getEventNamespace(wizard)
     return eventNamespace;
 }
 
-// function getStepAnchor(wizard, index)
-// {
-//     var uniqueId = getUniqueId(wizard);
-//
-//     return wizard.find("#" + uniqueId + _tabSuffix + index);
-// }
+function getStepAnchor(wizard, index)
+{
+    var uniqueId = getUniqueId(wizard);
+
+    return wizard.find("#" + uniqueId + _tabSuffix + index);
+}
 
 function getStepPanel(wizard, index)
 {
@@ -793,9 +793,9 @@ function paginationClickHandler(event)
             cancel(wizard);
             break;
 
-        // case "finish":
-        //     finishStep(wizard, state);
-        //     break;
+        case "finish":
+            finishStep(wizard, state);
+            break;
 
         case "next":
             goToNextStep(wizard, options, state);
@@ -1065,10 +1065,10 @@ function renderPagination(wizard, options, state)
 
         buttons += buttonTemplate.format("next", options.labels.next);
 
-        // if (options.enableFinishButton)
-        // {
-        //     buttons += buttonTemplate.format("finish", options.labels.finish);
-        // }
+        if (options.enableFinishButton)
+        {
+            buttons += buttonTemplate.format("finish", options.labels.finish);
+        }
 
         if (options.enableCancelButton)
         {

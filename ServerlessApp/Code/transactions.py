@@ -81,8 +81,8 @@ class Transactions:
                     "Amount": 0}
 
             self.db_obj.create('accounts', data)
-            # return render_template("l.html")
-            return {"Status": "Account created successful"}
+            return render_template("l.html")
+            # return {"Status": "Account created successful"}
         except Exception as error:
             return {"Status": "Error in creating account \n {}".format(error)}
 

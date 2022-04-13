@@ -1,7 +1,7 @@
 from audioop import add
 from .__init__ import create_app
 import pymongo as PyMongo
-from flask import Flask, app, jsonify, request, flash
+from flask import Flask, app, jsonify, request, flash, render_template
 
 
 def postData(firstname, lastname, phonenumber, DOB, email, password1):
@@ -70,6 +70,7 @@ def pData(firstname, lastname, email, password1, DOB, address, city, Province, Z
                                   'AccountNumber': AccountNumber,
                                   'accountType': accountType
                                   })
+
     return jsonify({'firstname': firstname, 'lastname': lastname, 'email': email,
                     'password1': password1,
                     'DOB': DOB,
