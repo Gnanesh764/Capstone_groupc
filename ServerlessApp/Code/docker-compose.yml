@@ -1,0 +1,9 @@
+version: '2'
+services:
+  bankapp-service:
+    ports:
+      - "18004:18004"
+    image: bankapp:1.0
+    container_name: bankapp
+    environment:
+      - db=52.23.241.183
